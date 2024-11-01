@@ -38,11 +38,25 @@ test.describe("Test cart function", async () => {
         expect(page).toHaveURL("https://rahulshettyacademy.com/seleniumPractise/#/")
     })
 
-    test("Add mango to cart", async ({page}) => {
+    test("Add mango and apple to cart", async ({page}) => {
         await page.locator('div').filter({ hasText: /^Mango - 1 Kg75–\+ADD TO CART$/ }).getByRole('button').click()
         await page.locator('div').filter({ hasText: /^Apple - 1 Kg72–\+ADD TO CART$/ }).getByRole('button').click()
         await page.waitForTimeout(1000)
         await expect(page.getByRole('row', { name: 'Items :' }).getByRole('strong')).toContainText("2")
         await expect(page.getByRole('row', { name: 'Price :' }).getByRole('strong')).toContainText("147")
+    })
+
+    test("Add fruits to cart", async ({page}) => {
+        await page.locator('div').filter({ hasText: /^Apple - 1 Kg72–\+ADD TO CART$/ }).getByRole('link').nth(1).click()
+        await page.locator('div').filter({ hasText: /^Apple - 1 Kg72–\+ADD TO CART$/ }).getByRole('button').click()
+        await page.locator('div').filter({ hasText: /^Banana - 1 Kg45–\+ADD TO CART$/ }).getByRole('button').click()
+        await page.locator('div').filter({ hasText: /^Grapes - 1 Kg60–\+ADD TO CART$/ }).getByRole('button').click()
+        await page.locator('div').filter({ hasText: /^Strawberry - 1\/4 Kg180–\+ADD TO CART$/ }).getByRole('link').nth(1).dblclick()
+        await page.locator('div').filter({ hasText: /^Strawberry - 1\/4 Kg180–\+ADD TO CART$/ }).getByRole('link').nth(1).dblclick()
+        await page.locator('div').filter({ hasText: /^Strawberry - 1\/4 Kg180–\+ADD TO CART$/ }).getByRole('link').first().click()
+        await page.locator('div').filter({ hasText: /^Strawberry - 1\/4 Kg180–\+ADD TO CART$/ }).getByRole('button').click()
+        await page.pause()
+        await expect(page.getByRole('row', { name: 'Items :' }).getByRole('strong')).toContainText("4")
+        await expect(page.getByRole('row', { name: 'Price :' }).getByRole('strong')).toContainText("1074")
     })
 })
