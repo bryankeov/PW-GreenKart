@@ -57,3 +57,12 @@ test.describe("Test cart function", async () => {
         await expect(page.getByRole('row', { name: 'Price :' }).getByRole('strong')).toContainText("969")
     })
 })
+
+test.describe("Adding exact numbers to cart", async () => {
+    test("Test adding 10000 Watermelon", async ({page}) => {
+        await page.locator('div').filter({ hasText: /^Water Melon - 1 Kg28–\+ADD TO CART$/ }).getByRole('spinbutton').fill("9999")
+        await page.locator('div').filter({ hasText: /^Water Melon - 1 Kg28–\+ADD TO CART$/ }).getByRole('link').nth(1).click()
+        await page.locator('div').filter({ hasText: /^Water Melon - 1 Kg28–\+ADD TO CART$/ }).getByRole('button').click()
+        await expect(page.getByRole('row', { name: 'Price :' }).getByRole('strong')).toContainText("280000")
+    })
+})
